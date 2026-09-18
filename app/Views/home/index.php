@@ -19,6 +19,7 @@ $sectionMeta = [
 ?>
 
 <div class="hero">
+ <div class="hero-copy">
   <h1>The things you stopped using are exactly what someone else needs.</h1>
   <p>
     NexUse is one place to sell, rent, lend or donate what is sitting idle in your home —
@@ -55,6 +56,22 @@ $sectionMeta = [
     <?php else: ?>
       <a class="btn btn-lg btn-secondary" href="<?= url('/register') ?>">Create an account</a>
     <?php endif; ?>
+  </div>
+ </div>
+
+  <?php /* The logo, filling what was empty space on the right. Decorative — the
+           header already carries the brand name, so screen readers skip it. */ ?>
+  <div class="hero-art" aria-hidden="true">
+    <svg class="hero-mark" viewBox="0 0 32 32">
+      <path d="M4 6h4l3.2 14.5h13.2" fill="none" stroke="#2563C9" stroke-width="2.6"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M22.5 8.2c1.9-1.9 5-1.9 6.9 0 1.9 1.9 1.9 5 0 6.9L23 21.5l-6.4-6.4c-1.9-1.9-1.9-5 0-6.9 1.9-1.9 5-1.9 6.9 0z"
+            fill="#12945A"/>
+      <circle cx="13" cy="26" r="2.1" fill="#1D4FA5"/>
+      <circle cx="22" cy="26" r="2.1" fill="#1D4FA5"/>
+    </svg>
+    <span class="hero-wordmark"><span class="nex">Nex</span><span class="use">Use</span></span>
+    <span class="hero-strap">Sell · Rent · Share · Donate</span>
   </div>
 </div>
 

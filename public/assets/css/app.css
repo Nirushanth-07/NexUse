@@ -25,6 +25,7 @@
     18. Feature round 3 — search, condition flags, avatars, gated location
     19. Feature round 4 — pinned filters, dialogs, donations
     20. Feature round 6 — notifications dialog
+    21. Home hero logo
    ========================================================================== */
 
 /* ------------------------------------------------------------ 1. Tokens -- */
@@ -1998,3 +1999,54 @@ a.notif-toggle:hover { text-decoration: none; }
 /* Admin forms now sit beside the admin menu; this keeps the form itself at a
    readable width instead of stretching across the page. */
 .admin-form { max-width: 640px; }
+
+/* ==========================================================================
+   21. Home hero logo
+   ========================================================================== */
+
+/* The hero text keeps its own measure on the left; the logo fills the space on
+   the right that the wide layout opened up. */
+@media (min-width: 900px) {
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 40px;
+  }
+}
+
+.hero-art {
+  display: none;
+  text-align: center;
+  padding-right: 24px;
+  user-select: none;
+}
+@media (min-width: 900px) {
+  .hero-art { display: block; }
+}
+
+.hero-mark {
+  width: clamp(150px, 15vw, 240px);
+  height: clamp(150px, 15vw, 240px);
+  display: block;
+  margin: 0 auto 6px;
+}
+
+.hero-wordmark {
+  display: block;
+  font-weight: 750;
+  font-size: clamp(30px, 3.4vw, 48px);
+  letter-spacing: -.02em;
+  line-height: 1;
+}
+.hero-wordmark .nex { color: var(--blue); }
+.hero-wordmark .use { color: var(--green); }
+
+.hero-strap {
+  display: block;
+  margin-top: 10px;
+  font-size: 13.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
