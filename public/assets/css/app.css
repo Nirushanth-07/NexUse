@@ -2006,21 +2006,25 @@ a.notif-toggle:hover { text-decoration: none; }
 
 /* The hero text keeps its own measure on the left; the logo fills the space on
    the right that the wide layout opened up. */
+/* Two equal halves, so the logo — centred in the right half — sits at three
+   quarters of the width. */
 @media (min-width: 900px) {
   .hero {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: center;
-    gap: 40px;
+    gap: 0;
   }
 }
 
 .hero-art {
   display: none;
   text-align: center;
-  /* Sits in from the hero's right edge — more room on a wide screen, less on a
-     narrow one, so it never crowds the heading beside it. */
-  padding-right: clamp(24px, 4.5vw, 96px);
+  /* Centring inside the right half puts the mark at three quarters of the hero
+     box, which is a touch left of three quarters of the window — the page
+     gutter and the hero's own padding sit outside it. This offset takes it to
+     75% of the window itself. */
+  padding-left: 60px;
   user-select: none;
 }
 @media (min-width: 900px) {
