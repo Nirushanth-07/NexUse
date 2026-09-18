@@ -10,6 +10,7 @@
  * @var string|null $navActive
  * @var bool|null   $narrow
  * @var bool|null   $formWidth
+ * @var bool|null   $hideFooter Sign in and create account drop the footer entirely
  */
 
 use App\Core\Session;
@@ -142,6 +143,9 @@ if (!empty($formWidth)) { $containerClass .= ' container-form'; }
   </div>
 </main>
 
+<?php /* Sign in and create account are single-task pages: no footer, so nothing
+         leads away from the form. */ ?>
+<?php if (empty($hideFooter)): ?>
 <footer class="site-footer">
   <div class="container">
 
@@ -247,6 +251,7 @@ if (!empty($formWidth)) { $containerClass .= ' container-form'; }
 </footer>
 
 <?php View::partial('partials.donate_modal'); ?>
+<?php endif; ?>
 
 <?php if ($user !== null): ?>
   <?php View::partial('partials.notif_modal', ['recent' => $recent, 'unread' => $unread]); ?>

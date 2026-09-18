@@ -28,8 +28,9 @@ class AuthController extends Controller
 
         if (!Request::isPost()) {
             $this->view('auth.register', [
-                'pageTitle' => 'Create account',
-                'formWidth' => true,
+                'pageTitle'  => 'Create account',
+                'formWidth'  => true,
+                'hideFooter' => true,
                 'errors'    => Session::takeErrors(),
             ]);
 
@@ -109,8 +110,9 @@ class AuthController extends Controller
 
         if (!Request::isPost()) {
             $this->view('auth.login', [
-                'pageTitle' => 'Sign in',
-                'formWidth' => true,
+                'pageTitle'  => 'Sign in',
+                'formWidth'  => true,
+                'hideFooter' => true,
                 'errors'    => Session::takeErrors(),
             ]);
 
