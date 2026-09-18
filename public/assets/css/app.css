@@ -2018,7 +2018,9 @@ a.notif-toggle:hover { text-decoration: none; }
 .hero-art {
   display: none;
   text-align: center;
-  padding-right: 24px;
+  /* Sits in from the hero's right edge — more room on a wide screen, less on a
+     narrow one, so it never crowds the heading beside it. */
+  padding-right: clamp(24px, 4.5vw, 96px);
   user-select: none;
 }
 @media (min-width: 900px) {
