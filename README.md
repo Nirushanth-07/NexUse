@@ -112,7 +112,7 @@ NexUse/
 │   ├── Views/           layouts/, partials/, errors/, and one folder per module
 │   └── Helpers/         functions.php — view helpers
 ├── config/              config.local.php (git-ignored) + example
-├── database/            setup.sql, schema.sql, seed.sql, migrations 002 and 003
+├── database/            setup.sql, schema.sql, seed.sql
 ├── public/              index.php, router.php, .htaccess, assets/
 ├── doc/                 Proposal and planning documents
 ├── bootstrap.php        Autoloader, session, helpers
@@ -157,12 +157,9 @@ mysql -u nexuse_app -p nexuse < database\schema.sql
 mysql -u nexuse_app -p nexuse < database\seed.sql
 ```
 
-Already imported an older schema that has the `email_otps` table? Either re-run the two
-commands above, or remove just the OTP parts:
-
-```bat
-mysql -u root -p nexuse < database\migration_003_remove_otp.sql
-```
+Re-running these two commands is also how you refresh a database created from an older
+version of the schema: `schema.sql` drops and recreates every table, and `seed.sql`
+reloads the demo data.
 
 ### 3. Configure
 
