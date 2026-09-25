@@ -40,6 +40,8 @@ an administrator.
 - **Profile pictures**, with initials as the fallback
 - **Complaints** routed to an administrator
 - **Notifications** for every event, with an unread count, opening in a centred pop-up
+- **Hide a listing** instead of deleting it — out of Browse, search and the home page,
+  kept in My listings under a Hidden tab, and back on show whenever the owner wants
 - **Admin area**: dashboard, user management, categories, complaints, broadcast — with
   the admin menu on every admin page
 - **Terms, privacy and contact** pages
@@ -187,7 +189,7 @@ Then open <http://localhost:8000>.
 
 ## Demo accounts
 
-The seeded accounts — one administrator and five members — and their shared password
+The seeded accounts — one administrator and thirteen members — and their shared password
 are listed in **`demo-accounts.txt`** in the project root. They are not shown anywhere
 on the website, and the file sits outside `public/`, so it cannot be downloaded.
 
@@ -233,6 +235,7 @@ Added after the interim, along the same ownership lines:
 | 4 | Donation dialog (`partials/donate_modal.php`, `donation_details()`, footer) | Member 3 |
 | 4 | Text "Notification" button, header search removed (`layouts/app.php`) | Member 4 |
 | 5 | Full-width layout on every page (`app.css`, width flags in 10 controllers) | Shared — it touches every page |
+| 7 | Hide a listing from Browse (`listings.is_hidden`, `ListingController::visibility()`) | Member 1 |
 | 6 | OTP removed, demo accounts moved to `demo-accounts.txt` (`AuthController`, `User`, `auth/login.php`) | Member 4 |
 | 6 | Admin menu on every admin page; notifications as a centred pop-up (`admin/*`, `partials/notif_modal.php`, `initModals()`) | Member 4 |
 | 6 | Donation warning and footer credit removed (`partials/donate_modal.php`, `layouts/app.php`) | Member 3 |

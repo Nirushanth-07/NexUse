@@ -19,5 +19,14 @@ fathima@example.lk     Passw0rd!   Member          Donates books; has completed 
 dilan@example.lk       Passw0rd!   Member          Mostly a requester; requests at several statuses
 tharindu@example.lk    Passw0rd!   Member          Has a completed donation and reviews
 
+achini@example.lk      Passw0rd!   Member          Matara - sells kitchen things, donates uniforms
+ruwan@example.lk       Passw0rd!   Member          Anuradhapura - rents out building tools
+shalini@example.lk     Passw0rd!   Member          Dehiwala - books, baby items; one hidden listing
+ahamed@example.lk      Passw0rd!   Member          Batticaloa - phones and electronics, one reserved
+chamodi@example.lk     Passw0rd!   Member          Gampaha - children's things, sound system for hire
+pradeep@example.lk     Passw0rd!   Member          Ratnapura - lends garden tools and a ladder
+ishara@example.lk      Passw0rd!   Member          Jaffna - past papers, textbooks, keyboard
+sanjaya@example.lk     Passw0rd!   Member          Badulla - camping and cricket gear
+
 
 Re-importing database/seed.sql resets every account back to these details.
