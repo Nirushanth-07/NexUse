@@ -14,6 +14,16 @@ $id = (int) $listing['listing_id'];
 <div class="card">
   <div class="card-head"><h1 style="font-size:20px;margin:0;">Delete this listing?</h1></div>
 
+  <div class="alert alert-info">
+    <span>
+      <strong>You may not need to.</strong> Hiding the listing takes it out of Browse but keeps
+      the item, its photos and its history — and you can show it again at any time.
+      Use <em>Hide</em> on
+      <a href="<?= url('/listings') ?>">My listings</a>, or the tick box on the
+      <a href="<?= url('/listings/' . (int) $listing['listing_id'] . '/edit') ?>">edit page</a>.
+    </span>
+  </div>
+
   <p class="mb-2">
     You are about to permanently delete
     <strong><?= e($listing['title']) ?></strong>.

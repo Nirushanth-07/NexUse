@@ -85,6 +85,13 @@ class ListingController extends Controller
 
         $ownerId  = (int) $listing['user_id'];
         $viewerId = Auth::id();
+        $isOwner  = $viewerId !== null && $viewerId === $ownerId;
+
+        // A hidden listing is the owner's own business. Everybody else is told
+        // the same thing they would be told about a listing that never existed.
+        if ((int) $listing['is_hidden'] === 1 && !$isOwner && !Auth::isAdmin()) {
+            $this->notFound('That listing is no longer available.');
+        }
 
         $this->view('listings.show', [
             'pageTitle'       => (string) $listing['title'],
@@ -92,7 +99,7 @@ class ListingController extends Controller
             'listing'         => $listing,
             'images'          => ListingImage::forListing($id),
             'ownerRating'     => User::rating($ownerId),
-            'isOwner'         => $viewerId !== null && $viewerId === $ownerId,
+            'isOwner'         => $isOwner,
             'existingRequest' => ($viewerId !== null && $viewerId !== $ownerId)
                 ? ItemRequest::liveFor($id, $viewerId)
                 : null,
@@ -112,9 +119,13 @@ class ListingController extends Controller
         $listings = Listing::forUser((int) $user['user_id'], $status);
 
         $counts = ['all' => Listing::count('user_id = ?', [$user['user_id']])];
-        foreach (['available', 'reserved', 'completed', 'removed'] as $key) {
-            $counts[$key] = Listing::count('user_id = ? AND status = ?', [$user['user_id'], $key]);
+        foreach (['available', 'reserved', 'completed'] as $key) {
+            $counts[$key] = Listing::count(
+                'user_id = ? AND status = ? AND is_hidden = 0',
+                [$user['user_id'], $key]
+            );
         }
+        $counts['hidden'] = Listing::count('user_id = ? AND is_hidden = 1', [$user['user_id']]);
 
         $this->view('listings.mine', [
             'pageTitle' => 'My listings',
@@ -265,6 +276,7 @@ class ListingController extends Controller
             'price'          => $input['price'],
             'location'       => $input['location'] !== '' ? $input['location'] : null,
             'status'         => $status,
+            'is_hidden'      => Request::post('is_hidden') === '1' ? 1 : 0,
         ]);
 
         foreach ($this->storeImages($id, ListingImage::countForListing($id)) as $warning) {
@@ -273,6 +285,52 @@ class ListingController extends Controller
 
         $this->flash('success', 'Listing updated.');
         $this->redirect('/listings/' . $id);
+    }
+
+    /**
+     * Hide a listing from Browse, or put it back on show.
+     *
+     * An alternative to deleting: nothing is lost, the listing keeps its
+     * requests, its reviews and its photos, and one click brings it back.
+     */
+    public function visibility(int $id): void
+    {
+        $user = Auth::requireLogin();
+        $this->requirePost('/listings');
+        $this->verifyCsrf();
+
+        $listing = Listing::find($id);
+
+        if ($listing === null) {
+            $this->notFound('That listing could not be found.');
+        }
+
+        if ((int) $listing['user_id'] !== (int) $user['user_id']) {
+            $this->forbidden('You can only hide your own listings.');
+        }
+
+        $hide = (int) $listing['is_hidden'] === 0;
+        Listing::setHidden($id, $hide);
+
+        if ($hide) {
+            $pending = ItemRequest::count(
+                "listing_id = ? AND status = 'pending'",
+                [$id]
+            );
+
+            $this->flash(
+                'success',
+                'Listing hidden. It no longer appears in Browse, and you can show it again at any time.'
+                . ($pending > 0
+                    ? ' Hiding does not cancel the ' . $pending . ' request'
+                        . ($pending === 1 ? '' : 's') . ' already waiting for your answer.'
+                    : '')
+            );
+        } else {
+            $this->flash('success', 'Listing is public again.');
+        }
+
+        $this->back('/listings');
     }
 
     /* ---------------------------------------------------------- DELETE -- */

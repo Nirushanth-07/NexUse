@@ -40,7 +40,7 @@ class RequestController extends Controller
         $user    = Auth::requireLogin();
         $listing = Listing::findWithOwner($listingId);
 
-        if ($listing === null || $listing['status'] === 'removed') {
+        if ($listing === null || $listing['status'] === 'removed' || (int) $listing['is_hidden'] === 1) {
             $this->notFound('That listing is no longer available.');
         }
 

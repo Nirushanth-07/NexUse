@@ -50,7 +50,9 @@ class Listing extends Model
      */
     private static function buildFilters(array $filters): array
     {
-        $where  = ["l.status IN ('available', 'reserved')"];
+        // A hidden listing belongs to its owner alone: it never appears in Browse,
+        // search results, the home page or the related-items strip.
+        $where  = ["l.status IN ('available', 'reserved')", 'l.is_hidden = 0'];
         $params = [];
 
         if (!empty($filters['keyword'])) {
@@ -177,7 +179,7 @@ class Listing extends Model
             "SELECT l.*, u.name AS owner_name
              FROM listings l
              JOIN users u ON u.user_id = l.user_id
-             WHERE l.listing_type = ? AND l.status = 'available'
+             WHERE l.listing_type = ? AND l.status = 'available' AND l.is_hidden = 0
              ORDER BY l.created_at DESC
              LIMIT " . (int) $limit,
             [$type]
@@ -194,8 +196,10 @@ class Listing extends Model
         $where  = 'l.user_id = ?';
         $params = [$userId];
 
-        if ($status !== '' && in_array($status, self::STATUSES, true)) {
-            $where   .= ' AND l.status = ?';
+        if ($status === 'hidden') {
+            $where .= ' AND l.is_hidden = 1';
+        } elseif ($status !== '' && in_array($status, self::STATUSES, true)) {
+            $where   .= ' AND l.status = ? AND l.is_hidden = 0';
             $params[] = $status;
         }
 
@@ -258,6 +262,7 @@ class Listing extends Model
              LEFT JOIN categories c ON c.category_id = l.category_id
              WHERE l.listing_id <> ?
                AND l.status = 'available'
+               AND l.is_hidden = 0
              ORDER BY relevance DESC, l.created_at DESC
              LIMIT " . (int) $limit,
             [
@@ -277,6 +282,17 @@ class Listing extends Model
         if (in_array($status, self::STATUSES, true)) {
             self::update($listingId, ['status' => $status]);
         }
+    }
+
+    /**
+     * Hide a listing from Browse, or put it back on show.
+     *
+     * Visibility is kept apart from `status` on purpose: hiding a reserved item
+     * and showing it again later must not lose the fact that it is reserved.
+     */
+    public static function setHidden(int $listingId, bool $hidden): void
+    {
+        self::update($listingId, ['is_hidden' => $hidden ? 1 : 0]);
     }
 
     /**

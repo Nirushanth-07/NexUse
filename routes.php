@@ -44,6 +44,7 @@ $router->get('/listings',              [ListingController::class, 'mine']);     
 $router->form('/listings/create',      [ListingController::class, 'create']);     // Create
 $router->get('/listings/{id}',         [ListingController::class, 'show']);       // Read  — detail
 $router->form('/listings/{id}/edit',   [ListingController::class, 'edit']);       // Update
+$router->post('/listings/{id}/visibility', [ListingController::class, 'visibility']); // Update — hide / show
 $router->form('/listings/{id}/delete', [ListingController::class, 'destroy']);    // Delete
 
 /* --------------------------------- requests & rentals · Member 2 · CRUD ---- */

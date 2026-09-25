@@ -16,6 +16,7 @@ $tabs = [
     'available' => 'Available',
     'reserved'  => 'Reserved',
     'completed' => 'Completed',
+    'hidden'    => 'Hidden',
 ];
 ?>
 
@@ -94,6 +95,9 @@ $tabs = [
             </td>
             <td>
               <span class="badge badge-<?= e($item['status']) ?>"><?= e(ucfirst((string) $item['status'])) ?></span>
+              <?php if ((int) $item['is_hidden'] === 1): ?>
+                <span class="badge badge-hidden" title="Not shown in Browse">🔒 Hidden</span>
+              <?php endif; ?>
             </td>
             <td class="num">
               <?php if ((int) $item['pending_requests'] > 0): ?>
@@ -109,6 +113,14 @@ $tabs = [
             <td>
               <div class="table-actions">
                 <a class="btn btn-secondary btn-sm" href="<?= url('/listings/' . $id . '/edit') ?>">Edit</a>
+                <?php $hidden = (int) $item['is_hidden'] === 1; ?>
+                <form method="post" action="<?= url('/listings/' . $id . '/visibility') ?>" class="inline-form">
+                  <?= csrf_field() ?>
+                  <button type="submit" class="btn btn-ghost btn-sm"
+                          title="<?= $hidden ? 'Show this listing in Browse again' : 'Keep the listing but take it out of Browse' ?>">
+                    <?= $hidden ? 'Show' : 'Hide' ?>
+                  </button>
+                </form>
                 <a class="btn btn-ghost btn-sm" style="color:var(--red);"
                    href="<?= url('/listings/' . $id . '/delete') ?>">Delete</a>
               </div>

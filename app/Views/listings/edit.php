@@ -131,6 +131,18 @@ $typeBlurbs = [
       </select>
       <p class="field-hint">Only available items appear in browse results.</p>
     </div>
+
+    <div class="form-group mb-0">
+      <label class="check">
+        <input type="checkbox" name="is_hidden" value="1"
+               <?= (int) old('is_hidden', $listing['is_hidden']) === 1 ? 'checked' : '' ?>>
+        <span>Hide from Browse — keep the listing, but stop showing it to other members</span>
+      </label>
+      <p class="field-hint">
+        Nothing is lost: photos, requests and reviews stay as they are, and you can show it
+        again whenever you like. Hiding is the gentler alternative to deleting.
+      </p>
+    </div>
   </div>
 
   <div class="card mb-2">

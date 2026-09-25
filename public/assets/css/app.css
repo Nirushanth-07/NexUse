@@ -776,6 +776,7 @@ textarea.has-error { border-color: var(--red); }
 
 .badge-available { background: var(--green-soft);  color: var(--green); }
 .badge-reserved  { background: var(--amber-soft);  color: var(--amber); }
+.badge-hidden    { background: var(--surface-2);   color: var(--ink-2); border: 1px dashed var(--border-strong); }
 .badge-removed   { background: var(--surface-2);   color: var(--muted); }
 
 .badge-open      { background: var(--red-soft);    color: var(--red); }

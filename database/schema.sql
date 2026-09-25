@@ -74,6 +74,7 @@ CREATE TABLE listings (
   price           DECIMAL(10,2) DEFAULT NULL,  -- sale price, or rent per day
   location        VARCHAR(120) DEFAULT NULL,
   status          ENUM('available','reserved','completed','removed') NOT NULL DEFAULT 'available',
+  is_hidden       TINYINT(1)   NOT NULL DEFAULT 0,  -- owner hid it from Browse
   created_at      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (listing_id),
@@ -81,6 +82,7 @@ CREATE TABLE listings (
   KEY idx_listings_category (category_id),
   KEY idx_listings_status (status),
   KEY idx_listings_type (listing_type),
+  KEY idx_listings_visible (is_hidden, status),
   CONSTRAINT fk_listings_user
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
   CONSTRAINT fk_listings_category

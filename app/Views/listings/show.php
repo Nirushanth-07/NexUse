@@ -26,6 +26,23 @@ $condition = (string) $listing['item_condition'];
   <span><?= e(excerpt((string) $listing['title'], 40)) ?></span>
 </nav>
 
+<?php if ((int) $listing['is_hidden'] === 1): ?>
+  <div class="alert alert-warning">
+    <span>
+      <strong>🔒 This listing is hidden.</strong>
+      It does not appear in Browse, search or the home page, and nobody can request it.
+      Only you<?= $isOwner ? '' : ' and the listing owner' ?> can see this page.
+    </span>
+    <?php if ($isOwner): ?>
+      <form method="post" action="<?= url('/listings/' . (int) $listing['listing_id'] . '/visibility') ?>"
+            class="inline-form">
+        <?= csrf_field() ?>
+        <button type="submit" class="btn btn-sm">Show it again</button>
+      </form>
+    <?php endif; ?>
+  </div>
+<?php endif; ?>
+
 <div class="listing-detail">
 
   <div>
@@ -98,6 +115,12 @@ $condition = (string) $listing['item_condition'];
       <?php if ($isOwner): ?>
         <div class="alert alert-info mb-2"><span>This is your listing.</span></div>
         <a class="btn btn-secondary btn-block" href="<?= url('/listings/' . $id . '/edit') ?>">Edit listing</a>
+        <form method="post" action="<?= url('/listings/' . $id . '/visibility') ?>" class="mt-1">
+          <?= csrf_field() ?>
+          <button type="submit" class="btn btn-ghost btn-block">
+            <?= (int) $listing['is_hidden'] === 1 ? 'Show in Browse again' : '🔒 Hide from Browse' ?>
+          </button>
+        </form>
         <a class="btn btn-ghost btn-block mt-1" href="<?= url('/requests/received') ?>">View requests received</a>
 
       <?php elseif ($listing['status'] !== 'available'): ?>

@@ -36,10 +36,10 @@ class HomeController extends Controller
             'navActive' => 'home',
             'sections'  => $sections,
             'stats'     => [
-                'listings'  => Listing::count("status = 'available'"),
+                'listings'  => Listing::count("status = 'available' AND is_hidden = 0"),
                 'members'   => User::count("role = 'member' AND status = 'active'"),
                 'exchanges' => ItemRequest::completedCount(),
-                'donations' => Listing::count("listing_type = 'donate'"),
+                'donations' => Listing::count("listing_type = 'donate' AND is_hidden = 0"),
             ],
         ]);
     }
